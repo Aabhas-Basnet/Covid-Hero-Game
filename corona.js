@@ -518,7 +518,7 @@ update = function(){
 	can.fillText(player.hp+ "Hp",0,30)
 	can.fillText("score: " +score,200,30)
 	can.fillText("Vaccine: " +bulletSpray,420,30)
-	can.fillText("Virus killed: " +Vk,620,30)
+	can.fillText("People cured: " +Vk,620,30)
 }
 
 startNewGame =function() {
