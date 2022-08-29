@@ -516,9 +516,9 @@ update = function(){
 	can.fillRect(0,0,800,40);
 	can.fillStyle = 'black';
 	can.fillText(player.hp+ "Hp",0,30)
-	can.fillText("score: " +score,200,30)
-	can.fillText("Vaccine: " +bulletSpray,420,30)
-	can.fillText("People cured: " +Vk,620,30)
+	can.fillText("score: " +score,170,30)
+	can.fillText("Vaccine: " +bulletSpray,370,30)
+	can.fillText("People cured: " +Vk,570,30)
 }
 
 startNewGame =function() {
