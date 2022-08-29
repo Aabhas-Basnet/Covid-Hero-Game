@@ -48,7 +48,7 @@ Img.generate.src = "IMG/sick.png";
 hp= new Audio("Audio/hp.wav");
 Gos= new Audio("Audio/Go.wav");
 enemyCol= new Audio("Audio/enemyCol.mp3");
-walk= new Audio("Audio/walk1.wav");
+walk= new Audio("Audio/walk2.wav");
 
 
 var player ={
@@ -414,7 +414,7 @@ update = function(){
 	can.font = "40px Arial";
     can.fillText('Score: '+score,340,250);
     can.fillText('Vaccine: '+bulletSpray,320, 300);
-	can.fillText("Virus killed: " +Vk,300,350);
+	can.fillText("People Cured: " +Vk,300,350);
 	can.font = "20px Arial";
 	can.fillText('Survival Time: '+ts+' sec',330,450);
 	can.fillText("Press space to play again or click Re-load",230,400);
@@ -433,9 +433,9 @@ update = function(){
   currentMap.draw();
   frameCount++;
 
-  if (frameCount%500 == 0){randomlyGenerateGenarator();}
-  if (frameCount%250 == 0){UpdateEnemy();}
-  if (frameCount%125 == 0){randomlyGenerateUpgrade();}
+  if (frameCount%250 == 0){randomlyGenerateGenarator();}
+  if (frameCount%125 == 0){UpdateEnemy();}
+  if (frameCount%150 == 0){randomlyGenerateUpgrade();}
   
    for (var i in bulletList) {
       updateEntity(bulletList[i]);
@@ -451,6 +451,7 @@ update = function(){
 	    var iscolliding= collidesornot(bulletList[i],GenrateList[k]);
 	    if (iscolliding && bulletList[i].category == 'A'){
 		  delete GenrateList[k];
+		  Vk++;
 		  break;
 	    }
       }
@@ -460,7 +461,6 @@ update = function(){
 	    if (iscolliding){
 		  delete bulletList[i];
 		  delete enemyList[j];
-		  Vk++;
 		  break;
 	    }
       }
