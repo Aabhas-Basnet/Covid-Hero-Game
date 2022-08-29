@@ -1,5 +1,5 @@
 var can= document.getElementById("can").getContext("2d");
-can.font = "20px 'PLAYSIR', sans-serif";
+can.font = "30px Arial";
 can.fillStyle = 'black';
 var frameCount =0;
 var WIDTH=800;
@@ -22,6 +22,8 @@ var downm = false;
 var leftm = false;
 var rightm = false;
 
+var ts =0;
+
 var Img= {};
 
 Img.player = new Image();
@@ -42,6 +44,11 @@ Img.bullet.src = "IMG/spray.png";
 Img.generate = new Image();
 Img.generate.src = "IMG/sick.png";
 
+
+hp= new Audio("Audio/hp.wav");
+Gos= new Audio("Audio/Go.wav");
+enemyCol= new Audio("Audio/enemyCol.mp3");
+walk= new Audio("Audio/walk1.wav");
 
 
 var player ={
@@ -236,7 +243,6 @@ Movement= function(x){
     location.reload();
   }
   
-  console.log(x);
 
 }
 
@@ -284,13 +290,13 @@ updatePlayerPosition = function() {
       player.y -=10;
 	  
 	if (rightm == true)
-        player.x +=15;
+        player.x +=10;
 	if (leftm == true)
-        player.x -=15;
+        player.x -=10;
 	if (downm == true)
-        player.y +=15;
+        player.y +=10;
 	if (upm == true)
-        player.y -=15;
+        player.y -=10;
 	
 	  
 	if (player.x < player.width/2)
@@ -304,10 +310,12 @@ updatePlayerPosition = function() {
 		
 	if (player.pressigDown || player.pressigLeft || player.pressigRight || player.pressigUp ){
 		  player.MovingCounter+=0.5;
+		  walk.play();
 	}
 	 
 	if (rightm || leftm || downm || upm ){
         player.MovingCounter+=0.5;
+		walk.play();
     }
 }
 
@@ -397,15 +405,20 @@ document.oncontextmenu = function(mouse) {
 }
 
 update = function(){
-
   if (GameOver == true){
-    can.font = "40px 'PLAYSIR', sans-serif";
-    can.fillText('Game Over',250, 150);
-	can.font = "20px 'PLAYSIR', sans-serif";
-    can.fillText('Score: '+score,350,200);
-    can.fillText('Vaccine: '+bulletSpray,350, 250);
-	can.fillText("Virus killed: " +Vk,300,300)
-	can.fillText("Press space to play again ",250,350);
+	can.fillStyle = 'red';
+	can.fillRect(100,100,600,380);
+	can.fillStyle = 'white';
+    can.font = "80px Arial";
+    can.fillText('Game Over',200, 200);
+	can.font = "40px Arial";
+    can.fillText('Score: '+score,340,250);
+    can.fillText('Vaccine: '+bulletSpray,320, 300);
+	can.fillText("Virus killed: " +Vk,300,350);
+	can.font = "20px Arial";
+	can.fillText('Survival Time: '+ts+' sec',330,450);
+	can.fillText("Press space to play again or click Re-load",230,400);
+
 	
     if (Rp){
 	 return;
@@ -460,7 +473,9 @@ update = function(){
 	    if (iscolliding){
 		    if (upgradeList[i].category === "sanitizer"){
 		      score++;
-			  bulletSpray++;}
+			  bulletSpray++;
+			  hp.play();
+			  }
 			 
 			delete upgradeList[i];
 	    }
@@ -473,6 +488,7 @@ update = function(){
 	var iscolliding= collidesornot(player,GenrateList[i]);
 	if (iscolliding){
 	    player.hp=player.hp-1;
+		enemyCol.play();
 	}
   }
   
@@ -482,18 +498,23 @@ update = function(){
 	var iscolliding= collidesornot(player,enemyList[i]);
 	if (iscolliding){
 	    player.hp=player.hp-1;
+		enemyCol.play();
 	}
   }
   
     if (player.hp<=0){
 		var Totalscore= parseInt((Date.now() - starttime)/1000);
-		can.fillText('Survival Time: '+Totalscore+' sec',280,400);
         Rp = true;		
 		GameOver = true;
+		ts= Totalscore;
+		Gos.play();
 	}
 	
 	updatePlayerPosition();
     drawEntityPlayer(player);
+	can.fillStyle = 'white';
+	can.fillRect(0,0,800,40);
+	can.fillStyle = 'black';
 	can.fillText(player.hp+ "Hp",0,30)
 	can.fillText("score: " +score,200,30)
 	can.fillText("Vaccine: " +bulletSpray,420,30)
@@ -501,7 +522,7 @@ update = function(){
 }
 
 startNewGame =function() {
-can.font = "20px 'PLAYSIR', sans-serif";
+can.font = "30px Arial";
 player.hp=20
 starttime= Date.now();
 frameCount=0;
@@ -512,7 +533,7 @@ enemyList={};
 upgradeList={};
 bulletList={};
 GenrateList={};
-
+ts=0;
 randomlyGenerateGenarator();
 }
 
