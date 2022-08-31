@@ -23,8 +23,8 @@ h1{
 
 .Home{
 	width: 40%;
-	height: 80vh;
-	background: url(BG_IMG/bg.jpg);
+	height: 90vh;
+	background: url(BG_IMG/bg.png);
 	background-repeat: no-repeat;
 	background-size: cover;
 	margin: 2% 30% 0%;
